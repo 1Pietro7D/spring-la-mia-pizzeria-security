@@ -37,7 +37,7 @@ public class PizzaController {
 		if (keyword == null) { // TODO : mettere nel service
 			pizzaList = pizzaRepository.findAll(); // restituisce un elenco di istanze pizze
 		} else {
-			pizzaList = pizzaRepository.findByNameLike("%" + keyword + "%");
+			pizzaList = pizzaRepository.findByNameContainingIgnoreCase(keyword);
 		}
 		model.addAttribute("pizze", pizzaList);
 		return "pizze/index";
