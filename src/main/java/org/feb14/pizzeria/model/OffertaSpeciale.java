@@ -2,6 +2,8 @@ package org.feb14.pizzeria.model;
 
 import java.time.LocalDate;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -24,6 +26,10 @@ public class OffertaSpeciale {
 	
 	private LocalDate dataFine;
 	
+	@JsonBackReference // Could not write JSON: Infinite recursion (StackOverflowError)] as the response has already been committed. As a result, the response may have the wrong status code.
+	//@JsonIgnore
+	//@JsonManagedReference
+	//@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 	@NotNull
 	@ManyToOne
 	private Pizza pizza;

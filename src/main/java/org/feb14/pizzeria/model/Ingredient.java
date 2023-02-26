@@ -5,6 +5,8 @@ import java.util.List;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -22,7 +24,7 @@ public class Ingredient {
 	
 	private String name;
 	
-	
+	@JsonBackReference // Could not write JSON: Infinite recursion (StackOverflowError)] as the response has already been committed. As a result, the response may have the wrong status code.
 	@ManyToMany(mappedBy = "ingredients")// cascade = CascadeType.REMOVE -- questo cecchina tutte le pizze anche
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	private List <Pizza> pizze;
