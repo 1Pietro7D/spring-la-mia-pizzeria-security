@@ -3,6 +3,11 @@ package org.feb14.pizzeria.model;
 import java.math.BigDecimal;
 import java.util.List;
 
+import org.feb14.pizzeria.service.PizzaSerializer;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 import jakarta.persistence.CascadeType;
 // https://docs.oracle.com/javaee/7/api/javax/persistence/Column.html
 // https://jakarta.ee/specifications/persistence/3.1/apidocs/jakarta.persistence/jakarta/persistence/column
@@ -22,6 +27,7 @@ import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "pizze")
+@JsonSerialize(using = PizzaSerializer.class)
 public class Pizza {
 
 	@Id
@@ -46,10 +52,15 @@ public class Pizza {
 	@NotNull
 	@DecimalMin(value = "0.01", message = "Il prezzo deve essere maggiore di zero")
 	private BigDecimal price;
-
-	@OneToMany(mappedBy = "pizza", cascade = CascadeType.REMOVE) // l'attributo di "mappedBy" punta alla proprietà														// nell'entità OffertaSpeciale.
+	
+	//@JsonBackReference // Could not write JSON: Infinite recursion (StackOverflowError)] as the response has already been committed. As a result, the response may have the wrong status code.
+	@JsonIgnore
+	//@JsonManagedReference // mmm poco utile/rilevante
+	//@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id") // o da uno o da l'altro
+	@OneToMany(mappedBy = "pizza", cascade = CascadeType.REMOVE) // l'attributo di "mappedBy" punta alla proprietà nell'entità OffertaSpeciale.
 	private List<OffertaSpeciale> offerte;
-
+	
+	//@JsonManagedReference // serve e non serve... mmm
 	@ManyToMany() // senza mappedBy si dice "owner", il lato dove viene gestita, per cui da pizza aggiungo ingredienr
 	@JoinTable(name = "ingredient_pizza", joinColumns = @JoinColumn(name = "pizza_id"), inverseJoinColumns = @JoinColumn(name = "ingredient_id"))
 	private List<Ingredient> ingredients;
@@ -69,7 +80,7 @@ public class Pizza {
 	public List<OffertaSpeciale> getOfferte() {
 		return offerte;
 	}
-
+	
 	public void setOfferte(List<OffertaSpeciale> offerte) {
 		this.offerte = offerte;
 	}
