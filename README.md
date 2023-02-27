@@ -85,3 +85,9 @@ Diamo la possibilità di :
 - modificare una pizza esistente
 - cancellare una pizza
 Queste operazioni devono poter essere eseguite tramite PostMan, non preoccupiamoci quindi della parte di frontend per ora
+
+day 8
+
+abbiamo implementato le Api REST, e le possiamo interrogare con PostMan.
+Facciamo un altro sforzo : creiamo un semplice progetto frontend che le richiami e tramite javascript mostri in pagina i dati.
+Ricordiamoci che servirà una pagina per la lista delle pizze (filtrabili per titolo), una per il dettaglio di una singola pizza, una per la creazione e una per la modifica…senza dimenticarci del pulsante per la cancellazione di un elemento!
