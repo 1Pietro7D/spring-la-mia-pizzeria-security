@@ -23,11 +23,17 @@ public class PizzaApiController {
 	PizzaRepository pizzaRepository;
 
 	@GetMapping
-	public List<Pizza> index(@RequestParam(required = false) String name) {
+	public ResponseEntity<List<Pizza>> index(@RequestParam(required = false) String name) {
+		List<Pizza> result;
 		if (name != null && !name.isBlank()) {
-			return pizzaRepository.findByNameContainingIgnoreCase(name);
+			result = pizzaRepository.findByNameContainingIgnoreCase(name);
 		} else {
-			return pizzaRepository.findAll();
+			result = pizzaRepository.findAll();
+		}
+		if (result.size() <= 0) {
+			return new ResponseEntity<List<Pizza>>(HttpStatus.NO_CONTENT);
+		} else {
+			return new ResponseEntity<List<Pizza>>(result, HttpStatus.OK);
 		}
 	}
 
@@ -44,4 +50,5 @@ public class PizzaApiController {
 	public Pizza create(@RequestBody Pizza pizza) {
 		return pizzaRepository.save(pizza);
 	}
+
 }
