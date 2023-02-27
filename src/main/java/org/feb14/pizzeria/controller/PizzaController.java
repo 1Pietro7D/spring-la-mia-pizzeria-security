@@ -46,8 +46,8 @@ public class PizzaController {
 	@GetMapping("/{id}")
 	public String show(@PathVariable("id") Integer id, Model model) {
 
-		Optional<Pizza> pizza = pizzaRepository.findById(id); // restituisce un'istanza Optional con dentro
-																// forse una pizza
+		Optional<Pizza> pizza = pizzaRepository.findById(id); // restituisce un'istanza Optional con dentro forse una
+																// pizza
 		model.addAttribute("pizza", pizza.get());
 		return "pizze/detail";
 
@@ -55,20 +55,20 @@ public class PizzaController {
 
 	@GetMapping("/create")
 	public String create(Model model) {
-		List<Ingredient> ingredientList=ingredientRepository.findAll();
+		List<Ingredient> ingredientList = ingredientRepository.findAll();
 		model.addAttribute("ingredients", ingredientList);
 		model.addAttribute("pizza", new Pizza());
 		return "pizze/create";
 	}
 
 	@PostMapping("/store") // gestirà le richieste di tipo POST di tipo /books/create
-	public String store(@Valid @ModelAttribute("pizza") Pizza formPizza, BindingResult bindingResult, Model model
-	) {
+	public String store(@Valid @ModelAttribute("pizza") Pizza formPizza, BindingResult bindingResult, Model model) {
 
 		if (bindingResult.hasErrors()) {
-			List<Ingredient> ingredientList=ingredientRepository.findAll();
+			List<Ingredient> ingredientList = ingredientRepository.findAll();
 			model.addAttribute("ingredients", ingredientList);
-			return "pizze/create";}
+			return "pizze/create";
+		}
 
 		pizzaRepository.save(formPizza);
 		return "redirect:/pizze"; // genera un altro get e il ciclo si chiude
@@ -78,8 +78,8 @@ public class PizzaController {
 	@GetMapping("/edit/{id}")
 	public String edit(@PathVariable("id") Integer id, Model model) {
 		Pizza pizza = pizzaRepository.getReferenceById(id);
-		List<Ingredient> ingredientList=ingredientRepository.findAll();
-		
+		List<Ingredient> ingredientList = ingredientRepository.findAll();
+
 		model.addAttribute("pizza", pizza);
 		model.addAttribute("ingredients", ingredientList);
 		return "pizze/update";
@@ -88,9 +88,10 @@ public class PizzaController {
 	@PostMapping("/update/{id}")
 	public String update(@Valid @ModelAttribute Pizza formPizza, BindingResult result, Model model) {
 		if (result.hasErrors()) {
-			List<Ingredient> ingredientList=ingredientRepository.findAll();
+			List<Ingredient> ingredientList = ingredientRepository.findAll();
 			model.addAttribute("ingredients", ingredientList);
-			return "pizze/update";}
+			return "pizze/update";
+		}
 
 		pizzaRepository.save(formPizza);
 		return "redirect:/pizze";
